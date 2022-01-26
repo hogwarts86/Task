@@ -18,7 +18,6 @@ add_executable(${This} ${SOURCES} ${HEADERS})
 find_package(Boost 1.74.0 REQUIRED)
 if(Boost_FOUND)
   include_directories(
-    src
     ${Boost_INCLUDE_DIRS}
     ${Boost_LIBRARY_DIRS}
     )
@@ -27,7 +26,6 @@ endif()
 add_subdirectory(OrderBook)
 include_directories(
         OrderBook 
-        ${Boost_INCLUDE_DIR}
 )
 target_link_libraries(${This} 
         PRIVATE orderbook
