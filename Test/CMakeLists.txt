@@ -16,10 +16,10 @@ add_executable(
 )
 
 target_include_directories(
-    ${This} PUBLIC OrderBook PUBLIC external/
+    ${This} PUBLIC OrderBook PUBLIC external/ ${Boost_INCLUDE_DIR}
 )
 target_link_libraries(
-    ${This} PUBLIC gtest_main PUBLIC orderbook
+    ${This} PUBLIC gtest_main PUBLIC orderbook PUBLIC  ${Boost_LIBRARIES}
 )
 
 
