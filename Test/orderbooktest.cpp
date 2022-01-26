@@ -6,7 +6,7 @@ TEST(OrderBookTest, OrderBookEmptyTest){
     EXPECT_TRUE(book.isEmpty());
 }
 
-TEST(OderBookTest, OrderBookAddBidTest){
+TEST(OrderBookTest, OrderBookAddBidTest){
     OrderBook book;
     book.addBid(10,100.00);
     auto bidAsk = book.getBidAsk();
@@ -21,11 +21,16 @@ TEST(OrderBookTest, OrderBookRemovalTest){
     book.addBid(10,200.00);
     book.addAsk(50,150.00);
     book.removeBid(5,200.00);
+    book.removeAsk(15,150.00);
     auto bidAsk = book.getBidAsk();
     EXPECT_TRUE(bidAsk.bid.is_initialized());
     EXPECT_TRUE(bidAsk.ask.is_initialized());
     auto bid = bidAsk.bid.get();
+    auto ask = bidAsk.ask.get();
     
     EXPECT_EQ(200.00, bid.first);
     EXPECT_EQ(5,bid.second);
+
+    EXPECT_EQ(150.00, ask.first);
+    EXPECT_EQ(35,ask.second);
 }

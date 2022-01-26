@@ -3,11 +3,13 @@
 #include <map>
 #include <iostream>
 #include <boost/optional.hpp>
+
 class OrderBook{
     std::map<float,int> bids,asks;
 
     void add(int ammount, float price, bool isBid);
     void remove(int ammount, float price, bool isBid);
+
 public:
     struct BidAsk{
         typedef boost::optional<std::pair<float,int>> Entry;
@@ -15,7 +17,9 @@ public:
         boost::optional<float>spread() const;
     };
 
-    bool isEmpty();
+    inline bool isEmpty() const{
+        return bids.empty() && asks.empty();
+    };
     void addBid(int ammount, float price);
     void addAsk(int ammount, float price);
 
@@ -24,4 +28,7 @@ public:
 
     BidAsk getBidAsk();
 
+
+    friend std::ostream& operator << (std::ostream &os, const OrderBook &book);
+    friend std::ostream& operator << (std::ostream &os, const BidAsk &ba);
 };

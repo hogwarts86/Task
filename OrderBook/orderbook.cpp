@@ -1,11 +1,5 @@
 #include "orderbook.h"
 
-
-bool OrderBook::isEmpty(){
-    return bids.empty() && asks.empty();
-}
-
-
 void OrderBook::addAsk(int ammount, float price){
     add(ammount,price,false);
 }
@@ -13,6 +7,7 @@ void OrderBook::addAsk(int ammount, float price){
 void OrderBook::addBid(int ammount, float price){
     add(ammount,price,true);
 }
+
 void OrderBook::add(int ammount, float price, bool isBid){
     if(isBid)
         bids[price]+= ammount;
@@ -49,5 +44,44 @@ OrderBook::BidAsk OrderBook::getBidAsk(){
         result.ask = *bestAsk;
 
     return result;
+
+}
+
+std::ostream& operator << (std::ostream &os, const OrderBook::BidAsk &bidAsk)
+{
+    auto print = [&](const OrderBook::BidAsk::Entry e, const std::string &text)
+    {
+        bool have_value = e.is_initialized();
+        if(have_value)
+        {
+            auto value = e.get();
+            os << value.second << text << " @"<< value.first;
+        }else{
+            os << "NO "<< text;
+        }
+    };
+
+    print(bidAsk.bid,"BUY");
+    os<< ", ";
+    print(bidAsk.ask,"SELL");
+    return os;
+
+}
+
+
+std::ostream& operator << (std::ostream &os, const OrderBook &book)
+{
+    if(book.isEmpty())
+    {
+        os << "ORDER BOOK EMPTY";
+        return os;
+    }
+
+    for(auto it = book.asks.rbegin(); it!= book.asks.rend(); ++it)
+        os << it->first<<"\t"<<it->second<< std::endl;
+        os << std::endl;
+    for(auto it = book.bids.rbegin(); it!= book.bids.rend(); ++it)
+        os << it->first<<"\t"<<it->second<< std::endl;
+    return os;
 
 }
