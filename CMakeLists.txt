@@ -18,3 +18,7 @@ add_executable(${This} ${SOURCES} ${HEADERS})
 add_subdirectory(OrderBook)
 include_directories(OrderBook)
 target_link_libraries(${This} PRIVATE orderbook)
+
+enable_testing()
+add_subdirectory(external/)
+add_subdirectory(Test)
