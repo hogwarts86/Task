@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7...3.18)
-set (This OrderBook)
+set (This AppOrderBook)
 
 project(${This})
 set(CXX_FLAGS
@@ -15,5 +15,6 @@ set (HEADERS
 )
 add_executable(${This} ${SOURCES} ${HEADERS})
 #enable_testing()
-#add_subdirectory(googletest)
-#add_subdirectory(test)
+add_subdirectory(OrderBook)
+include_directories(OrderBook)
+target_link_libraries(${This} PRIVATE orderbook)
