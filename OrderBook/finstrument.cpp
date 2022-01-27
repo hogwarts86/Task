@@ -1,5 +1,12 @@
 #include "finstrument.h"
 
-FInstrument::FInstrument(std::string &name){
-    this->iName = name;
+
+FInstrument::FInstrument(string name)
+{
+    iName = name;
+}
+
+
+std::string FInstrument::getInstrumentName(){
+    return iName;
 }
