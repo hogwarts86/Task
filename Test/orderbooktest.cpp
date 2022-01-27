@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "orderbook.h"
-
+#define GTEST_COUT std::cerr << "[          ] [ INFO ]"
 TEST(OrderBookTest, OrderBookEmptyTest){
     OrderBook book;
     EXPECT_TRUE(book.isEmpty());
@@ -33,4 +33,12 @@ TEST(OrderBookTest, OrderBookRemovalTest){
 
     EXPECT_EQ(150.00, ask.first);
     EXPECT_EQ(35,ask.second);
+}
+
+TEST(OrderBookTest, OrderBookPrintTest)
+{
+    OrderBook book;
+    book.addBid(10,110.00);
+    book.addBid(30,100.00);
+    book.addAsk(50,300.00);
 }

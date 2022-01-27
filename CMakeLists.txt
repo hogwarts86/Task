@@ -15,6 +15,8 @@ set (SOURCES
 set (HEADERS
 )
 add_executable(${This} ${SOURCES} ${HEADERS})
+
+#include boost directory
 find_package(Boost 1.74.0 REQUIRED)
 if(Boost_FOUND)
   include_directories(
@@ -23,7 +25,11 @@ if(Boost_FOUND)
     )
 endif()
 
+
+
+
 add_subdirectory(OrderBook)
+
 include_directories(
         OrderBook 
 )

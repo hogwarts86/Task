@@ -1,29 +1,30 @@
 #include "orderbook.h"
+#include <iomanip>
 
-void OrderBook::addAsk(int ammount, float price){
+void OrderBook::addAsk(int ammount, double price){
     add(ammount,price,false);
 }
 
-void OrderBook::addBid(int ammount, float price){
+void OrderBook::addBid(int ammount, double price){
     add(ammount,price,true);
 }
 
-void OrderBook::add(int ammount, float price, bool isBid){
+void OrderBook::add(int ammount, double price, bool isBid){
     if(isBid)
         bids[price]+= ammount;
     else
         asks[price]+= ammount;
 }
 
-void OrderBook::removeBid(int ammount, float price){
+void OrderBook::removeBid(int ammount, double price){
      remove(ammount,price,true);
 }
 
-void OrderBook::removeAsk(int ammount,float price){
+void OrderBook::removeAsk(int ammount,double price){
     remove(ammount,price,false);
 }
 
-void OrderBook::remove(int ammount, float price, bool isBid){
+void OrderBook::remove(int ammount, double price, bool isBid){
     auto &table = isBid ? bids : asks;
     auto it  = table.find(price);
     if(it != table.end()){
@@ -49,21 +50,23 @@ OrderBook::BidAsk OrderBook::getBidAsk(){
 
 std::ostream& operator << (std::ostream &os, const OrderBook::BidAsk &bidAsk)
 {
+    os<<std::fixed;
+    os<<std::setprecision(2);
     auto print = [&](const OrderBook::BidAsk::Entry e, const std::string &text)
     {
         bool have_value = e.is_initialized();
         if(have_value)
         {
             auto value = e.get();
-            os << value.second << text << " @"<< value.first;
+            os << text<<value.second<<" @ "<< value.first;
         }else{
             os << "NO "<< text;
         }
     };
 
-    print(bidAsk.bid,"BUY");
+    print(bidAsk.bid,"BUY ");
     os<< ", ";
-    print(bidAsk.ask,"SELL");
+    print(bidAsk.ask,"SELL ");
     return os;
 
 }
@@ -71,6 +74,8 @@ std::ostream& operator << (std::ostream &os, const OrderBook::BidAsk &bidAsk)
 
 std::ostream& operator << (std::ostream &os, const OrderBook &book)
 {
+    os<<std::fixed;
+    os<<std::setprecision(2);
     if(book.isEmpty())
     {
         os << "ORDER BOOK EMPTY";
@@ -78,10 +83,10 @@ std::ostream& operator << (std::ostream &os, const OrderBook &book)
     }
 
     for(auto it = book.asks.rbegin(); it!= book.asks.rend(); ++it)
-        os << it->first<<"\t"<<it->second<< std::endl;
+        os <<"ASK :"<< it->second<<"\t"<<it->first<< std::endl;
         os << std::endl;
     for(auto it = book.bids.rbegin(); it!= book.bids.rend(); ++it)
-        os << it->first<<"\t"<<it->second<< std::endl;
+        os << "BID :"<<it->second<<"\t"<<it->first<< std::endl;
     return os;
 
 }

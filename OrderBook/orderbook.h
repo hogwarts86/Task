@@ -5,30 +5,31 @@
 #include <boost/optional.hpp>
 
 class OrderBook{
-    std::map<float,int> bids,asks;
-
-    void add(int ammount, float price, bool isBid);
-    void remove(int ammount, float price, bool isBid);
+    std::map<double,int> bids,asks;
+    void add(int ammount, double price, bool isBid);
+    void remove(int ammount, double price, bool isBid);
 
 public:
+
     struct BidAsk{
-        typedef boost::optional<std::pair<float,int>> Entry;
+        typedef boost::optional<std::pair<double,int>> Entry;
         Entry bid, ask;
-        boost::optional<float>spread() const;
+        boost::optional<double>spread() const;
     };
 
     inline bool isEmpty() const{
         return bids.empty() && asks.empty();
     };
-    void addBid(int ammount, float price);
-    void addAsk(int ammount, float price);
+    void addBid(int ammount, double price);
+    void addAsk(int ammount, double price);
 
-    void removeBid(int ammount, float price);
-    void removeAsk(int ammount, float price);
+    void removeBid(int ammount, double price);
+    void removeAsk(int ammount, double price);
 
     BidAsk getBidAsk();
 
 
     friend std::ostream& operator << (std::ostream &os, const OrderBook &book);
     friend std::ostream& operator << (std::ostream &os, const BidAsk &ba);
+    
 };
