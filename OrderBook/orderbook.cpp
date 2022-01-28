@@ -48,6 +48,23 @@ OrderBook::BidAsk OrderBook::getBidAsk(){
 
 }
 
+void OrderBook::printToFile(const std::string &folderPath,const std::string &symbols){
+
+    std::string fileName = folderPath + symbols + ".txt";
+    if(!std::fstream(fileName))
+        std::cout << "Cannot open file, file doesn't exist";
+    std::fstream file(fileName,std::ios::out|std::ios::app);
+
+    if(file.is_open())
+    {
+        std::cout << "Write to File " << fileName << std::endl;
+        file << "Content to write";
+    }
+    else
+        std::cout<<"File can't opened and created";
+    file.close();
+}
+
 std::ostream& operator << (std::ostream &os, const OrderBook::BidAsk &bidAsk)
 {
     os<<std::fixed;

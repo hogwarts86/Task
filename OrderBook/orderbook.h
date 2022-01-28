@@ -2,6 +2,7 @@
 
 #include <map>
 #include <iostream>
+#include <fstream>
 #include <boost/optional.hpp>
 
 class OrderBook{
@@ -25,6 +26,9 @@ public:
 
     void removeBid(int ammount, double price);
     void removeAsk(int ammount, double price);
+
+    //file writter for each instrument
+    void printToFile(const std::string &folderPath,const std::string &symbols);
 
     BidAsk getBidAsk();
 

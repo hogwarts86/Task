@@ -53,13 +53,18 @@ TEST(FInstrumentTest, FInstrumentSetName){
     EXPECT_EQ("HHAA",fInstrument.getInstrumentName());
 }
 
-TEST(FInstrumentTest,FInstrumentParseJSONTest){
-    FInstrument *fInstrument = new FInstrument();
+TEST(FInstrument,ParseJSONTest){
+    FInstrument fInstrument;
     BookOrTrade bot;
     std::ifstream input("../../Test/test.json");
     json jf;
     input>>jf;
     std::string bookOrder = jf.begin().key();
     EXPECT_EQ("book",bookOrder);
-    // fInstrument->parseJSONObject(jf,bot,bookOrder);
+    
+    // fInstrument.parseJSONObject(jf,bot,bookOrder);
+    // Get Symbols from JSON
+    bot.symbols = jf[bookOrder]["symbol"];
+    EXPECT_EQ("20",bot.symbols);
+    
 }

@@ -35,7 +35,7 @@ public:
     FInstrument(std::string name);
     std::string getInstrumentName();
     OrderBook book; //Every Financial Instruments has its own orderbook
-    // void parseJSONObject(json &js, BookOrTrade & bot, std::string bookorder);
+    void parseJSONObject(json &js, BookOrTrade & bot, std::string bookorder);
 };
 
 

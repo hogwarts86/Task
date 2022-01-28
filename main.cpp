@@ -3,10 +3,31 @@
 #include <finstrument.h>
 #include <json.hpp>
 #include <fstream>
+#include <string>
 
-
+#define OUTPUTFILEPATH "../Output/"
 
 using json = nlohmann::json;
+
+void writeToFile(const std::string &fileName){ 
+    std::string sPath(OUTPUTFILEPATH);
+    std::string filename = sPath + fileName + ".txt";
+    
+    if(!std::fstream(filename))
+         std::cout<<"Cannot open file, file does not exist. Creating new file\n";
+    std::fstream file(filename,std::ios::out|std::ios::app);
+    
+    if(file.is_open()){
+        std::cout<<"Write To File " << filename << std::endl;
+        file<<"This is our contents\n";
+            
+    } 
+    else
+        std::cout<<"File can't opened and created\n";
+    
+    file.close();
+
+}
 
 void fromJSON(const json& js, BookOrTrade & bot, std::string bookorder){
     int i = 0;
@@ -41,6 +62,7 @@ int main(int argc, char* argv[]){
     input>>jf;
     std::cout<<"JSON OBJECT symbols: "<<jf.at("book").at("symbol") <<std::endl;
     std::string bookOrder = jf.begin().key();
+    writeToFile(jf.at("book").at("symbol"));
     fromJSON(jf,bot,bookOrder);
 
     std::cout<<bot.symbols;
