@@ -1,0 +1,24 @@
+{
+    "book": {
+        "symbol": "20",
+        "bid": [
+            {
+                "count": 1,
+                "quantity": 1580,
+                "price": 5.940000
+            }
+        ],
+        "ask": [
+            {
+                "count": 1,
+                "quantity": 660,
+                "price": 6.070000
+            },
+            {
+                "count": 1,
+                "quantity": 420,
+                "price": 6.080000
+            }
+        ]
+    }
+}

@@ -1,6 +1,10 @@
 #include <gtest/gtest.h>
 #include "orderbook.h"
 #include "finstrument.h"
+#include "json.hpp"
+#include <fstream>
+
+
 #define GTEST_COUT std::cerr << "[          ] [ INFO ]"
 
 
@@ -47,4 +51,15 @@ TEST(OrderBookTest, OrderBookPrintTest)
 TEST(FInstrumentTest, FInstrumentSetName){
     FInstrument fInstrument("HHAA");
     EXPECT_EQ("HHAA",fInstrument.getInstrumentName());
+}
+
+TEST(FInstrumentTest,FInstrumentParseJSONTest){
+    FInstrument *fInstrument = new FInstrument();
+    BookOrTrade bot;
+    std::ifstream input("../../Test/test.json");
+    json jf;
+    input>>jf;
+    std::string bookOrder = jf.begin().key();
+    EXPECT_EQ("book",bookOrder);
+    // fInstrument->parseJSONObject(jf,bot,bookOrder);
 }

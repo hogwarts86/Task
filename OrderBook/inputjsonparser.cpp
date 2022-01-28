@@ -1,3 +1,1 @@
 #include "inputjsonparser.h"
-
-

@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.7...3.18)
-set (This AppOrderBook)
+set(This AppOrderBook)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 project(${This})
 set(CXX_FLAGS
 -g
@@ -25,19 +26,19 @@ if(Boost_FOUND)
     )
 endif()
 
-
-
-
 add_subdirectory(OrderBook)
 
 include_directories(
-        OrderBook 
+        OrderBook
+        ${PROJECT_SOURCE_DIR}/ext/json/single_include/nlohmann
 )
 target_link_libraries(${This} 
         PRIVATE orderbook
         PUBLIC  ${Boost_LIBRARIES}
+        PRIVATE nlohmann_json::nlohmann_json
         )
 
 enable_testing()
-add_subdirectory(external/)
+add_subdirectory(${PROJECT_SOURCE_DIR}/external)
+add_subdirectory(${PROJECT_SOURCE_DIR}/ext/json)
 add_subdirectory(Test)
