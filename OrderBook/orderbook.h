@@ -27,12 +27,12 @@ public:
     void removeBid(int ammount, double price);
     void removeAsk(int ammount, double price);
 
-    //file writter for each instrument
-    void printToFile(const std::string &folderPath,const std::string &symbols);
-
+    
     BidAsk getBidAsk();
 
-
+    
+    
+    //function to check the containers.
     friend std::ostream& operator << (std::ostream &os, const OrderBook &book);
     friend std::ostream& operator << (std::ostream &os, const BidAsk &ba);
     

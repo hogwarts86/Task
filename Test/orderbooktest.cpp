@@ -43,8 +43,18 @@ TEST(OrderBookTest, OrderBookRemovalTest){
     EXPECT_EQ(35,ask.second);
 }
 
-TEST(OrderBookTest, OrderBookPrintTest)
-{
+TEST(FInstrumentTest, FInstrumentTest)
+{   
+    FInstrument fInstrument;
+    std::string fileName = "../../Output/FileTest01.txt";
+    std::string content = "This is content\n";
+    fInstrument.printToFile(fileName,content);
+
+    std::string line;
+    std::ifstream in(fileName);
+    while(in>>std::ws && std::getline(in,line))
+    ;
+    EXPECT_EQ("This is content",line);
     
 }
 
@@ -53,10 +63,9 @@ TEST(FInstrumentTest, FInstrumentSetName){
     EXPECT_EQ("HHAA",fInstrument.getInstrumentName());
 }
 
-TEST(FInstrument,ParseJSONTest){
+TEST(FInstrumentTest,ParseJSONTest){
     FInstrument fInstrument;
-    BookOrTrade bot;
-    std::ifstream input("../../Test/test.json");
+    std::ifstream input("../../Test/test.json",std::ios::in);
     json jf;
     input>>jf;
     std::string bookOrder = jf.begin().key();
@@ -64,7 +73,15 @@ TEST(FInstrument,ParseJSONTest){
     
     // fInstrument.parseJSONObject(jf,bot,bookOrder);
     // Get Symbols from JSON
-    bot.symbols = jf[bookOrder]["symbol"];
-    EXPECT_EQ("20",bot.symbols);
+    std::string symbol = jf[bookOrder]["symbol"];
+    EXPECT_EQ("20",symbol);
+    
+}
+
+TEST(FInstrumentTest,NormalizedPrice){
+    double price = 23943.3300000000;
+    FInstrument fInstrument;
+    std::string str= fInstrument.normalizePrice(price);
+    EXPECT_EQ("23,943.33",str);
     
 }

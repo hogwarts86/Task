@@ -71,7 +71,10 @@
         "unordered_set": "cpp",
         "utility": "cpp",
         "variant": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "clocale": "cpp",
+        "numeric": "cpp",
+        "valarray": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

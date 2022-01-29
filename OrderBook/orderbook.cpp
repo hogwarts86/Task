@@ -10,14 +10,17 @@ void OrderBook::addBid(int ammount, double price){
 }
 
 void OrderBook::add(int ammount, double price, bool isBid){
-    if(isBid)
+    if(isBid){
         bids[price]+= ammount;
-    else
+    }     
+    else{
         asks[price]+= ammount;
+    }
+        
 }
 
 void OrderBook::removeBid(int ammount, double price){
-     remove(ammount,price,true);
+    remove(ammount,price,true);
 }
 
 void OrderBook::removeAsk(int ammount,double price){
@@ -46,23 +49,6 @@ OrderBook::BidAsk OrderBook::getBidAsk(){
 
     return result;
 
-}
-
-void OrderBook::printToFile(const std::string &folderPath,const std::string &symbols){
-
-    std::string fileName = folderPath + symbols + ".txt";
-    if(!std::fstream(fileName))
-        std::cout << "Cannot open file, file doesn't exist";
-    std::fstream file(fileName,std::ios::out|std::ios::app);
-
-    if(file.is_open())
-    {
-        std::cout << "Write to File " << fileName << std::endl;
-        file << "Content to write";
-    }
-    else
-        std::cout<<"File can't opened and created";
-    file.close();
 }
 
 std::ostream& operator << (std::ostream &os, const OrderBook::BidAsk &bidAsk)
