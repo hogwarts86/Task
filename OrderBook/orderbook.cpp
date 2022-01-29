@@ -26,6 +26,13 @@ void OrderBook::removeBid(int ammount, double price){
 void OrderBook::removeAsk(int ammount,double price){
     remove(ammount,price,false);
 }
+bool OrderBook::findPriceInBidTable(double price){
+    auto it = bids.find(price);
+    if(it != bids.end())
+        return true;
+    else 
+        return false;
+}
 
 void OrderBook::remove(int ammount, double price, bool isBid){
     auto &table = isBid ? bids : asks;

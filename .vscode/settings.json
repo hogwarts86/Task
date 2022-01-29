@@ -74,7 +74,8 @@
         "vector": "cpp",
         "clocale": "cpp",
         "numeric": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "strstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

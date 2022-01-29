@@ -27,6 +27,7 @@ public:
     void removeBid(int ammount, double price);
     void removeAsk(int ammount, double price);
 
+    bool findPriceInBidTable(double price);
     
     BidAsk getBidAsk();
 

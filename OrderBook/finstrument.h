@@ -9,25 +9,25 @@
 
 using json = nlohmann::json;
 
-struct BidAsk{
-    int count;
-    int quantity;
-    double price;
-};
-struct Book{
-    std::string symbols;
-    std::vector<BidAsk> bid;
-    std::vector<BidAsk> ask;
-};
-struct Trade{
-    std::string symbols;
-    int quantity;
-    double price;
-};
-struct Event{
-    Book book; //Book OrderKey
-    Trade trade; // Trade OrderKey
-};
+// struct BidAsk{
+//     int count;
+//     int quantity;
+//     double price;
+// };
+// struct Book{
+//     std::string symbols;
+//     std::vector<BidAsk> bid;
+//     std::vector<BidAsk> ask;
+// };
+// struct Trade{
+//     std::string symbols;
+//     int quantity;
+//     double price;
+// };
+// struct Event{
+//     Book book; //Book OrderKey
+//     Trade trade; // Trade OrderKey
+// };
 
 enum BookTrade{
     _BOOK,
@@ -46,12 +46,13 @@ class punct_facet: public std::numpunct<char>
 };
 
 class FInstrument{
-   
     BookTrade bookTrade;
-    punct_facet *facet;
     //Instruments Name (symbol)
     std::string mSymbol;
     std::string mOrderKey;
+
+
+
     
 public:
     FInstrument(){
@@ -62,7 +63,9 @@ public:
     }
 
     void printToFile(const std::string &fileName,const std::string &content);
-
+    
+    void PrintEventBook(BookTrade event);
+    void PrintEventTrade(BookTrade event);
 
     OrderBook book; //Every Financial Instruments has its own orderbook
     void parseJSONObject(json &js);

@@ -33,6 +33,7 @@ TEST(OrderBookTest, OrderBookRemovalTest){
     auto bidAsk = book.getBidAsk();
     EXPECT_TRUE(bidAsk.bid.is_initialized());
     EXPECT_TRUE(bidAsk.ask.is_initialized());
+
     auto bid = bidAsk.bid.get();
     auto ask = bidAsk.ask.get();
     
@@ -41,6 +42,8 @@ TEST(OrderBookTest, OrderBookRemovalTest){
 
     EXPECT_EQ(150.00, ask.first);
     EXPECT_EQ(35,ask.second);
+
+    EXPECT_TRUE(book.findPriceInBidTable(200.00));
 }
 
 TEST(FInstrumentTest, FInstrumentTest)

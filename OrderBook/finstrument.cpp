@@ -28,37 +28,29 @@ void FInstrument::printToFile(const std::string &fileName, const std::string &co
  * @param js 
  */
 void FInstrument::parseJSONObject(json &js){
-    Event event;
+
     //Book,Trade udah di cek
-    
+    auto print = [&](std::string text, int ammount, double price){
+
+
+    };
     switch(bookTrade){
         case _BOOK:{
 
         //Check bid Case
             if(!js["book"]["bid"].empty()){
-                int bid_size = js["book"]["bid"].size();
-                //Resize container
-                event.book.bid.resize(bid_size);
-                int i=0;
                 for(auto &array : js["book"]["bid"]){
-                    event.book.bid[i].count = array["count"];
-                    event.book.bid[i].quantity = array["quantity"];
-                    event.book.bid[i].price = array["price"];
-                    i++;
+                    book.addBid(array["quantity"],array["price"]);
+                    //Print Here
+
                 }
             }
 
-            //Check ask Case
+            //Check ask Case and add it to orderbook if any
             if(!js["book"]["ask"].empty()){
-                int ask_size = js["book"]["ask"].size();
-                //Resize container
-                event.book.ask.resize(ask_size);
-                int i = 0;
                 for(auto &array : js["book"]["ask"]){
-                    event.book.ask[i].count = array["count"];
-                    event.book.ask[i].quantity = array["quantity"];
-                    event.book.ask[i].price = array["price"];
-                    i++;
+                    book.addAsk(array["quantity"],array["price"]);
+                    //Print Here
                 }
             }
             // NO BID or ASK
@@ -66,9 +58,20 @@ void FInstrument::parseJSONObject(json &js){
         break;/* END of Book Case**/
 
         case _TRADE:{
-            event.trade.symbols = js["trade"]["symbols"];
-            event.trade.quantity = js["trade"]["quantity"];
-            event.trade.price = js["trade"]["price"];
+            // event.trade.symbols = js["trade"]["symbols"];
+            // event.trade.quantity = js["trade"]["quantity"];
+            // event.trade.price = js["trade"]["price"];
+            int ammount = js["trade"]["quantity"];
+            double price = js["trade"]["price"];
+            if(book.findPriceInBidTable(price))
+            {
+                book.removeBid(ammount,price);
+                //Print Here
+            }
+            else{
+                book.removeAsk(ammount,price);
+                //Print Here
+            }
 
         }
         break;/* END of Trade Case**/

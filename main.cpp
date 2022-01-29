@@ -37,11 +37,18 @@ using json = nlohmann::json;
 
 int main(int argc, char* argv[]){
     double pi = 123142.3100000390;
+    auto print = [&](const double pi)
+    {
     std::stringstream stream;
     stream.imbue(std::locale(stream.getloc(),new punct_facet));
     stream << std::fixed << std::setprecision(2) << pi;
     std::string s = stream.str();
     std::cout<<s<<std::endl;
+
+    };
+
+    print(pi);
+
 
     return 0;
 }
