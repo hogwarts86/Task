@@ -8,7 +8,7 @@ IDE : Visual Studio Code version 1.63
 
 OS Target (Used) : MacOS Version 10.14.6
 
-##The Output Data will be on Output/ Folder
+## The Output Data will be on Output/ Folder
 
 Every Instruments event will be written as "Symbol".txt file in /Output folder (directory)
 
