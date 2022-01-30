@@ -10,7 +10,7 @@ using json = nlohmann::json;
 
 int main(int argc, char* argv[]){
     std::map<std::string,FInstrument *> fInstruments;
-    std::string fileName("../Test/test2.json");
+    std::string fileName("../input.json");
     json jf;
     std::string line;
 
