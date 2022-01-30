@@ -1,15 +1,8 @@
 #include <iostream>
-#include <orderbook.h>
-#include <finstrument.h>
 #include <json.hpp>
 #include <fstream>
-#include <queue>
-#include <mutex>
-#include <thread>
-#include <condition_variable>
-#include <atomic>
-#include <map>
 
+#include <finstrument.h>
 
 
 using json = nlohmann::json;

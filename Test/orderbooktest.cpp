@@ -63,7 +63,7 @@ TEST(FInstrumentTest, FInstrumentTest)
 
 TEST(FInstrumentTest, FInstrumentSetName){
     FInstrument fInstrument("HHAA");
-    EXPECT_EQ("HHAA",fInstrument.getInstrumentName());
+    EXPECT_EQ("HHAA",fInstrument.getSymbol());
 }
 
 TEST(FInstrumentTest,ParseJSONTest){

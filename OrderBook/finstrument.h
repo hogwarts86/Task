@@ -63,29 +63,18 @@ public:
     }
 
     void printToFile(const std::string &fileName,const std::string &content);
-    
-    void PrintEventBook(BookTrade event);
-    void PrintEventTrade(BookTrade event);
 
     OrderBook book; //Every Financial Instruments has its own orderbook
+    
     void parseJSONObject(json &js);
 
-
     std::string normalizePrice(const double &price);
-
 
     void setSymbol(const std::string &symbol){
         mSymbol = symbol;
     }
-    std::string getInstrumentName(){
+    std::string getSymbol(){
         return mSymbol;
-    }
-
-    void setOrderKey(const std::string &key){
-        mOrderKey = key;
-    }
-    std::string getOrderKey(){
-        return mOrderKey;
     }
 
 
