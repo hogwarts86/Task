@@ -1,10 +1,10 @@
 #include "finstrument.h"
+#include <chrono>
 
-
-
+#define OUTPUTFILEPATH "../Output/"
 void FInstrument::printToFile(const std::string &fileName, const std::string &content){
     if(!std::fstream(fileName))
-        std::cout << "Cannot open file, file doesn't exist";
+        std::cout << "Creating "<<fileName<<std::endl;
     std::fstream file(fileName,std::ios::out|std::ios::app);
 
     if(file.is_open())
@@ -12,7 +12,7 @@ void FInstrument::printToFile(const std::string &fileName, const std::string &co
         file << content; //content to be written
     }
     else
-        std::cout<<"File can't opened and created";
+        std::cout<<"File:"<<fileName<<" can't opened and created"<<std::endl;
     file.close();
 }
 
@@ -30,9 +30,25 @@ void FInstrument::printToFile(const std::string &fileName, const std::string &co
 void FInstrument::parseJSONObject(json &js){
 
     //Book,Trade udah di cek
+    // std::cout<<"This is on parseJSONObject on :"<<mSymbol<<std::endl;
+    auto startTime(std::chrono::high_resolution_clock::now());
+    std::string sTransaction = js.begin().key();
+    if(sTransaction == "book")
+        bookTrade = _BOOK;
+    else if(sTransaction == "trade")
+        bookTrade = _TRADE;
+    else{
+        std::cout<<"Can't process transaction";
+    }
+
     auto print = [&](std::string text, int ammount, double price){
-
-
+            std::string sPrice = normalizePrice(price);
+            std::stringstream ss;
+            ss<<text<<ammount<<" @ "<<sPrice<<std::endl;
+            // std::cout<<"Message:"<<ss.str();
+            std::string sPath(OUTPUTFILEPATH);
+            std::string fileName = sPath + mSymbol +".txt";
+            printToFile(fileName,ss.str());
     };
     switch(bookTrade){
         case _BOOK:{
@@ -42,7 +58,11 @@ void FInstrument::parseJSONObject(json &js){
                 for(auto &array : js["book"]["bid"]){
                     book.addBid(array["quantity"],array["price"]);
                     //Print Here
-
+                    double dPrice = array["price"];
+                    int ammount = array["quantity"];
+                    std::string textToPrint = "PASSIVE BUY ";
+                    print(textToPrint,ammount,dPrice);
+                    
                 }
             }
 
@@ -51,6 +71,11 @@ void FInstrument::parseJSONObject(json &js){
                 for(auto &array : js["book"]["ask"]){
                     book.addAsk(array["quantity"],array["price"]);
                     //Print Here
+                    double dPrice = array["price"];
+                    int ammount = array["quantity"];
+                    std::string textToPrint = "PASSIVE SELL ";
+                    print(textToPrint,ammount,dPrice);
+                    
                 }
             }
             // NO BID or ASK
@@ -67,10 +92,14 @@ void FInstrument::parseJSONObject(json &js){
             {
                 book.removeBid(ammount,price);
                 //Print Here
+                std::string textToPrint = "AGGRESIVE SELL ";
+                print(textToPrint,ammount,price);
             }
             else{
                 book.removeAsk(ammount,price);
                 //Print Here
+                std::string textToPrint = "AGGRESIVE BUY ";
+                print(textToPrint,ammount,price);
             }
 
         }
@@ -79,7 +108,11 @@ void FInstrument::parseJSONObject(json &js){
 
         }
     };
- 
+    auto endTime(std::chrono::high_resolution_clock::now());
+
+    std::cout<<"Duration for parse of event in "<<mSymbol<<" is "
+    << std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count()
+    << " ms"<<std::endl;
 }
 
 

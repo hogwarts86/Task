@@ -3,51 +3,51 @@
 #include <finstrument.h>
 #include <json.hpp>
 #include <fstream>
-#include <string>
+#include <queue>
+#include <mutex>
+#include <thread>
+#include <condition_variable>
+#include <atomic>
+#include <map>
 
-#define OUTPUTFILEPATH "../Output/"
+
 
 using json = nlohmann::json;
 
 
-// void fromJSON(const json& js, BookOrTrade & bot, std::string bookorder){
-//     int i = 0;
-//     bot.symbols = js[bookorder]["symbol"];
-//     bot.bid.resize(js[bookorder]["bid"].size());
-//     if(!js[bookorder]["bid"].empty()){
-//         for(auto& array : js[bookorder]["bid"]){
-//             bot.bid[i].count = array["count"];
-//             bot.bid[i].quantity = array["quantity"];
-//             bot.bid[i].price = array["price"];
-//             i++;
-//         };
-//     };
-//     i=0;
-//     bot.ask.resize(js[bookorder]["ask"].size());
-//     if(!js[bookorder]["ask"].empty()){
-//         for(auto &array : js[bookorder]["ask"]){
-            
-//             bot.ask[i].count = array["count"];
-//             bot.ask[i].quantity = array["quantity"];
-//             bot.ask[i].price = array["price"];
-//             i++;
-//         }
-//     }
-// }
-
 int main(int argc, char* argv[]){
-    double pi = 123142.3100000390;
-    auto print = [&](const double pi)
-    {
-    std::stringstream stream;
-    stream.imbue(std::locale(stream.getloc(),new punct_facet));
-    stream << std::fixed << std::setprecision(2) << pi;
-    std::string s = stream.str();
-    std::cout<<s<<std::endl;
+    std::map<std::string,FInstrument *> fInstruments;
+    std::string fileName("../Test/test2.json");
+    json jf;
+    std::string line;
 
-    };
+    std::ifstream fileReader(fileName);
+    if(!fileReader.is_open()){
+        std::cerr << "Could not open the file - '"<< fileName << "'" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    print(pi);
+    while(getline(fileReader,line)){
+        std::stringstream ss(std::ios::out|std::ios::in);
+        ss<<line; //
+        ss>>jf; //parse to nlohmann json;
+        std::string transaction = jf.begin().key();
+        std::string symbol = jf[transaction]["symbol"];
+
+        auto it = fInstruments.find(symbol);
+        if(it != fInstruments.end()){
+            // std::cout <<"Found "<<symbol<<std::endl;
+            it->second->parseJSONObject(jf);
+        }
+        else{
+            // std::cout <<"Inserting "<<symbol<<std::endl;
+            fInstruments.insert(std::make_pair(symbol,new FInstrument(symbol)));
+        }
+                
+
+    }
+
+
 
 
     return 0;
